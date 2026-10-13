@@ -1,0 +1,110 @@
+{
+ "topology": "Sprint",
+ "vulnerability_density": 0.6,
+ "num_entry_points": 1,
+ "seed": 5,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "5": {
+   "software": "Apache Struts 6.4.0",
+   "n_cves": 2,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.3,
+   "p": 0.0607,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "Exim 4.87",
+   "n_cves": 16,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.7375,
+   "p": 0.9496,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "Exim 4.87",
+   "n_cves": 16,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.7375,
+   "p": 0.9496,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

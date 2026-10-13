@@ -1,0 +1,137 @@
+{
+ "topology": "Compuserve",
+ "vulnerability_density": 0.4,
+ "num_entry_points": 1,
+ "seed": 1,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "MySQL 5.5.20",
+   "n_cves": 39,
+   "max_cvss": 10.0,
+   "mean_cvss": 6.8769,
+   "p": 0.9185,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "5": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "OpenSSH 9.9p1",
+   "n_cves": 4,
+   "max_cvss": 9.4,
+   "mean_cvss": 8.1,
+   "p": 0.1195,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "Apache Tomcat 8.5.0",
+   "n_cves": 21,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.9905,
+   "p": 0.9497,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "11": {
+   "software": "Apache Tomcat 9.0.108",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.9059,
+   "p": 0.6297,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "12": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "13": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

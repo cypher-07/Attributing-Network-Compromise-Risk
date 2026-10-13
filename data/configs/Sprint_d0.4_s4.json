@@ -1,0 +1,110 @@
+{
+ "topology": "Sprint",
+ "vulnerability_density": 0.4,
+ "num_entry_points": 1,
+ "seed": 4,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Exim 4.87",
+   "n_cves": 16,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.7375,
+   "p": 0.9496,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "Samba 4.5.0",
+   "n_cves": 28,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.3964,
+   "p": 0.945,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "Apache HTTP Server 2.4.49",
+   "n_cves": 23,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.3739,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "5": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "nginx 1.4.0",
+   "n_cves": 7,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.1714,
+   "p": 0.8373,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Drupal 10.3.6",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 7.91,
+   "p": 0.1913,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "nginx 1.4.0",
+   "n_cves": 7,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.1714,
+   "p": 0.8373,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

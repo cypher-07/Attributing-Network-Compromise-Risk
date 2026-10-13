@@ -1,0 +1,110 @@
+{
+ "topology": "Sprint",
+ "vulnerability_density": 0.6,
+ "num_entry_points": 1,
+ "seed": 1,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "MySQL 5.5.20",
+   "n_cves": 39,
+   "max_cvss": 10.0,
+   "mean_cvss": 6.8769,
+   "p": 0.9185,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "nginx 1.26.2",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Drupal 7.57",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.64,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "5": {
+   "software": "Drupal 7.57",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.64,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "Apache Tomcat 9.0.108",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.9059,
+   "p": 0.6297,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "Samba 4.5.0",
+   "n_cves": 28,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.3964,
+   "p": 0.945,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

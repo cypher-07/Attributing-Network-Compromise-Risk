@@ -1,0 +1,182 @@
+{
+ "topology": "Aarnet",
+ "vulnerability_density": 0.4,
+ "num_entry_points": 1,
+ "seed": 3,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "OpenSSL 3.0.15",
+   "n_cves": 8,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.65,
+   "p": 0.522,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "5": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "11": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "12": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "13": {
+   "software": "ProFTPD 1.3.9a",
+   "n_cves": 3,
+   "max_cvss": 8.8,
+   "mean_cvss": 8.3333,
+   "p": 0.1158,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "14": {
+   "software": "ProFTPD 1.3.9a",
+   "n_cves": 3,
+   "max_cvss": 8.8,
+   "mean_cvss": 8.3333,
+   "p": 0.1158,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "15": {
+   "software": "ProFTPD 1.3.9a",
+   "n_cves": 3,
+   "max_cvss": 8.8,
+   "mean_cvss": 8.3333,
+   "p": 0.1158,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "16": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "17": {
+   "software": "MySQL 8.0.40",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "18": {
+   "software": "Drupal 7.57",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.64,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

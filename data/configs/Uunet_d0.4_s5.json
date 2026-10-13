@@ -1,0 +1,452 @@
+{
+ "topology": "Uunet",
+ "vulnerability_density": 0.4,
+ "num_entry_points": 1,
+ "seed": 5,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Drupal 7.57",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.64,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "5": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "OpenSSH 9.9p1",
+   "n_cves": 4,
+   "max_cvss": 9.4,
+   "mean_cvss": 8.1,
+   "p": 0.1195,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "10": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "11": {
+   "software": "vsftpd 2.3.4",
+   "n_cves": 2,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.6,
+   "p": 0.9157,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "12": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "13": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "14": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "15": {
+   "software": "Exim 4.87",
+   "n_cves": 16,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.7375,
+   "p": 0.9496,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "16": {
+   "software": "ProFTPD 1.3.9a",
+   "n_cves": 3,
+   "max_cvss": 8.8,
+   "mean_cvss": 8.3333,
+   "p": 0.1158,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "17": {
+   "software": "Exim 4.98.2",
+   "n_cves": 3,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.8,
+   "p": 0.0585,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "18": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "19": {
+   "software": "ProFTPD 1.3.5",
+   "n_cves": 5,
+   "max_cvss": 10.0,
+   "mean_cvss": 8.96,
+   "p": 0.9455,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "20": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "21": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "22": {
+   "software": "Exim 4.98.2",
+   "n_cves": 3,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.8,
+   "p": 0.0585,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "23": {
+   "software": "Drupal 7.57",
+   "n_cves": 10,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.64,
+   "p": 0.9499,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "24": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "25": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "26": {
+   "software": "Samba 4.20.5",
+   "n_cves": 1,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.8,
+   "p": 0.0658,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "27": {
+   "software": "ProFTPD 1.3.5",
+   "n_cves": 5,
+   "max_cvss": 10.0,
+   "mean_cvss": 8.96,
+   "p": 0.9455,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "28": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "29": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "30": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "31": {
+   "software": "Samba 4.5.0",
+   "n_cves": 28,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.3964,
+   "p": 0.945,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "32": {
+   "software": "Exim 4.87",
+   "n_cves": 16,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.7375,
+   "p": 0.9496,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "33": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "34": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "35": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "36": {
+   "software": "nginx 1.26.2",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "37": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "38": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "39": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "40": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "41": {
+   "software": "Samba 4.5.0",
+   "n_cves": 28,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.3964,
+   "p": 0.945,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "42": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "43": {
+   "software": "nginx 1.4.0",
+   "n_cves": 7,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.1714,
+   "p": 0.8373,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "44": {
+   "software": "nginx 1.26.2",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "45": {
+   "software": "MySQL 8.0.40",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "46": {
+   "software": "MySQL 8.0.40",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "47": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "48": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}

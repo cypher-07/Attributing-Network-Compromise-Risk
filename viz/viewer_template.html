@@ -1,0 +1,513 @@
+<title>Backbone Breach Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: operations console. Network canvas on the left, controls and readouts
+   in a right-hand column; stacks to one column on phones. */
+:root {
+  --bg: #f3f5f7;
+  --panel: #ffffff;
+  --ink: #15202b;
+  --ink-2: #4f5d6b;
+  --ink-3: #7c8794;
+  --line: #d5dbe1;
+  --edge: #b9c2cb;
+  --accent: #d6451b;
+  --accent-soft: #f7d3c6;
+  --node-patched: #ffffff;
+  --node-low: #c9d9ea;
+  --node-mid: #7f9fc1;
+  --node-high: #2f4f73;
+  --node-stroke: #5f6f80;
+  --risk-0: #fbe9e2;
+  --risk-1: #f2b49e;
+  --risk-2: #e47a55;
+  --risk-3: #c43f17;
+  --risk-4: #7f230a;
+  --focus: #1f6feb;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151b; --panel: #172029; --ink: #e6ebf0; --ink-2: #a9b5c1; --ink-3: #7d8a97;
+    --line: #2a3643; --edge: #3a4856; --accent: #ff6a3d; --accent-soft: #4a2418;
+    --node-patched: #1c2630; --node-low: #33506d; --node-mid: #5f86ad; --node-high: #a9c6e4;
+    --node-stroke: #8696a7;
+    --risk-0: #2b1d19; --risk-1: #5e2c1c; --risk-2: #a8411f; --risk-3: #e9622f; --risk-4: #ffb08f;
+    --focus: #58a6ff; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151b; --panel: #172029; --ink: #e6ebf0; --ink-2: #a9b5c1; --ink-3: #7d8a97;
+  --line: #2a3643; --edge: #3a4856; --accent: #ff6a3d; --accent-soft: #4a2418;
+  --node-patched: #1c2630; --node-low: #33506d; --node-mid: #5f86ad; --node-high: #a9c6e4;
+  --node-stroke: #8696a7;
+  --risk-0: #2b1d19; --risk-1: #5e2c1c; --risk-2: #a8411f; --risk-3: #e9622f; --risk-4: #ffb08f;
+  --focus: #58a6ff; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body);
+  font-size: 14px; line-height: 1.45; padding-inline: 16px; padding-block: 20px 28px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 16px; }
+header { display: grid; gap: 4px; }
+h1 {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.75rem;
+  letter-spacing: 0.01em; margin: 0; text-wrap: balance;
+}
+.lede { margin: 0; color: var(--ink-2); max-width: 68ch; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+.stage {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  min-width: 0; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden;
+}
+.stage-head {
+  display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+}
+.stage-title { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+.stage-sub { color: var(--ink-3); font-size: 12.5px; font-family: var(--font-mono); }
+svg#map { display: block; width: 100%; height: auto; aspect-ratio: 10 / 7; max-width: 100%; touch-action: manipulation; }
+.edge { stroke: var(--edge); stroke-width: 1.2; }
+.edge.hit { stroke: var(--accent); stroke-width: 2.6; }
+.jump { stroke: var(--accent); stroke-width: 1.8; stroke-dasharray: 5 4; fill: none; opacity: 0.9; }
+.node circle { stroke: var(--node-stroke); stroke-width: 1.2; cursor: pointer; }
+.node:focus { outline: none; }
+.node:focus-visible circle, .node.sel circle { stroke: var(--focus); stroke-width: 3; }
+.node.fallen circle { fill: var(--accent); stroke: var(--panel); stroke-width: 1.6; }
+.node.entry circle { stroke: var(--accent); stroke-width: 3.2; }
+.node.fallen.entry circle { stroke: var(--ink); }
+.node text.rnd { font: 600 9.5px var(--font-mono); fill: #fff; pointer-events: none; text-anchor: middle; dominant-baseline: central; }
+.node text.lbl { font: 400 10.5px var(--font-body); fill: var(--ink-2); pointer-events: none; paint-order: stroke; stroke: var(--panel); stroke-width: 3px; }
+.node.new circle { animation: pulse 0.7s ease-out; }
+@keyframes pulse { from { r: calc(var(--r) * 1.9px); opacity: 0.35; } to { r: calc(var(--r) * 1px); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .node.new circle { animation: none; } }
+
+.playbar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 16px;
+  border-top: 1px solid var(--line);
+}
+.round-readout { margin-left: auto; font-family: var(--font-mono); font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+button, select {
+  font: 500 13px var(--font-body); color: var(--ink); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 7px; padding: 7px 12px; cursor: pointer;
+}
+button:hover, select:hover { border-color: var(--ink-3); }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.primary:hover { filter: brightness(1.06); }
+button:disabled { opacity: 0.45; cursor: default; }
+
+aside { display: grid; gap: 12px; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0; }
+.card h2 {
+  margin: 0; font: 600 11px var(--font-body); text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-3);
+}
+.field { display: grid; gap: 6px; }
+.field label, .field .flabel { font-size: 12.5px; color: var(--ink-2); }
+select { width: 100%; }
+.seg { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; width: fit-content; max-width: 100%; }
+.seg button { border: 0; border-radius: 0; border-right: 1px solid var(--line); padding: 6px 11px; font-variant-numeric: tabular-nums; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.stat { display: grid; gap: 2px; min-width: 0; }
+.stat .k { font-size: 12px; color: var(--ink-3); }
+.stat .v { font: 500 1.35rem var(--font-mono); font-variant-numeric: tabular-nums; }
+.stat .v small { font-size: 0.72rem; color: var(--ink-3); font-weight: 400; }
+.stat.wide { grid-column: 1 / -1; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--accent); width: 0; transition: width 0.25s; }
+
+.detail { display: grid; gap: 4px; font-size: 13px; min-height: 92px; }
+.detail .name { font-weight: 600; font-size: 14px; }
+.detail .row { display: flex; justify-content: space-between; gap: 12px; }
+.detail .row span:first-child { color: var(--ink-3); }
+.detail .row span:last-child { font-family: var(--font-mono); text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.muted { color: var(--ink-3); }
+
+.legend { display: grid; gap: 7px; font-size: 12.5px; color: var(--ink-2); }
+.legend .item { display: flex; align-items: center; gap: 8px; }
+.sw { width: 13px; height: 13px; border-radius: 50%; border: 1.2px solid var(--node-stroke); flex: none; }
+.ramp { display: flex; height: 10px; border-radius: 3px; overflow: hidden; border: 1px solid var(--line); }
+.ramp span { flex: 1; }
+.ramp-labels { display: flex; justify-content: space-between; font: 11px var(--font-mono); color: var(--ink-3); }
+
+footer { color: var(--ink-3); font-size: 12.5px; max-width: 90ch; display: grid; gap: 6px; }
+footer code { font-family: var(--font-mono); color: var(--ink-2); }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Backbone Breach Viewer</h1>
+    <p class="lede">Watch an assume-breach attack spread across a Topology Zoo backbone, one round at a time. At the start of each attack the attacker either holds a working exploit for each piece of software or not, with the chance set by its EPSS score; a held exploit works on every node running that software. Each newly compromised node then makes one attempt on every node it can reach, halved in strength for every link of distance beyond the first.</p>
+  </header>
+
+  <div class="main">
+    <section class="stage" aria-label="Network">
+      <div class="stage-head">
+        <div class="stage-title" id="stageTitle">Aarnet</div>
+        <div class="stage-sub" id="stageSub"></div>
+      </div>
+      <svg id="map" viewBox="0 0 1000 700" role="img" aria-labelledby="stageTitle"></svg>
+      <div class="playbar" id="playbar">
+        <button class="primary" id="btnPlay" type="button">Play</button>
+        <button id="btnStep" type="button">Step</button>
+        <button id="btnRestart" type="button">Restart</button>
+        <button id="btnNew" type="button">New attack</button>
+        <span class="round-readout" id="roundReadout">Round 0</span>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h2>Scenario</h2>
+        <div class="field">
+          <label for="selNet">Network</label>
+          <select id="selNet"></select>
+        </div>
+        <div class="field">
+          <span class="flabel" id="lblDen">Share of nodes vulnerable</span>
+          <div class="seg" id="segDen" role="group" aria-labelledby="lblDen"></div>
+        </div>
+        <div class="field">
+          <span class="flabel" id="lblSeed">Configuration</span>
+          <div class="seg" id="segSeed" role="group" aria-labelledby="lblSeed"></div>
+        </div>
+        <div class="field">
+          <span class="flabel" id="lblView">View</span>
+          <div class="seg" id="segView" role="group" aria-labelledby="lblView">
+            <button type="button" data-v="attack" aria-pressed="true">One attack</button>
+            <button type="button" data-v="risk" aria-pressed="false">Risk map (2,000 attacks)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 id="statsHead">This attack</h2>
+        <div class="stats">
+          <div class="stat"><span class="k" id="kFallen">Compromised</span><span class="v" id="vFallen">1</span></div>
+          <div class="stat"><span class="k">Share of network</span><span class="v" id="vShare">0%</span></div>
+          <div class="stat wide"><div class="bar"><span id="shareBar"></span></div></div>
+          <div class="stat"><span class="k">Sweep average, this config</span><span class="v" id="vSweep">0%</span></div>
+          <div class="stat"><span class="k">Density / threshold</span><span class="v" id="vDpc">0</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Node</h2>
+        <div class="detail" id="detail"><span class="muted">Hover or tap a node to see its software, exploit probability and when it fell.</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Key</h2>
+        <div class="legend" id="legendAttack">
+          <div class="item"><span class="sw" style="background:var(--accent);border-color:var(--panel)"></span><span>Compromised (number = round it fell)</span></div>
+          <div class="item"><span class="sw" style="background:var(--panel);border:3px solid var(--accent)"></span><span>Entry point (assumed breached)</span></div>
+          <div class="item"><span class="sw" style="background:var(--node-high)"></span><span>High <i>p</i> (0.7 and above): famous vulnerable version</span></div>
+          <div class="item"><span class="sw" style="background:var(--node-mid)"></span><span>Medium <i>p</i> (0.3 to 0.7)</span></div>
+          <div class="item"><span class="sw" style="background:var(--node-low)"></span><span>Low <i>p</i> (below 0.3): patched version</span></div>
+          <div class="item"><span class="sw" style="background:var(--node-patched)"></span><span>Fully patched (<i>p</i> = 0.05 floor)</span></div>
+          <div class="item"><svg width="22" height="8" aria-hidden="true"><line x1="0" y1="4" x2="22" y2="4" stroke="var(--accent)" stroke-width="2.6"/></svg><span>Attack along a direct link</span></div>
+          <div class="item"><svg width="22" height="8" aria-hidden="true"><line x1="0" y1="4" x2="22" y2="4" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="5 4"/></svg><span>Attack that jumped past other nodes</span></div>
+        </div>
+        <div class="legend" id="legendRisk" hidden>
+          <span>Share of 2,000 attacks in which the node fell</span>
+          <div class="ramp"><span style="background:var(--risk-0)"></span><span style="background:var(--risk-1)"></span><span style="background:var(--risk-2)"></span><span style="background:var(--risk-3)"></span><span style="background:var(--risk-4)"></span></div>
+          <div class="ramp-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          <div class="item"><span class="sw" style="background:var(--panel);border:3px solid var(--accent)"></span><span>Entry point (always falls)</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>Model: independent cascade, decay mode, shared exploits, as in <code>simulate.py</code>. Per attack, the exploit for each package is held with probability <code>q = max EPSS</code> over its network-reachable foothold CVEs (code execution or access, not DoS or disclosure); a node's <i>p</i> is then 0.95 if held, else the 0.05 credential-reuse floor, so on average <code>p = 0.05 + 0.90 × q</code>. An attempt from a node <i>d</i> links away succeeds with <code>p × 0.5^(d − 1)</code>; each attacker–target pair fires at most once. Configurations from <code>data/configs</code>; EPSS pulled 2026-10-12.</span>
+    <span>Layouts use each node's real latitude and longitude where the Topology Zoo file has them for at least 80% of nodes; other networks are drawn schematically. "Sweep average" is the mean over 2,000 simulated attacks in <code>results/sweep.csv</code>.</span>
+  </footer>
+</div>
+
+<script type="application/json" id="viewerData">/*DATA*/</script>
+<script>
+/*SIM*/
+
+(function () {
+  const DATA = JSON.parse(document.getElementById("viewerData").textContent);
+  const PKG = DATA.packages;
+  const P = PKG.map(x => x.p);
+  const Q = P.map(x => (x - DATA.floor) / (DATA.ceil - DATA.floor));   // chance the exploit is held
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const W = 1000, H = 700, PAD = 46;
+  const STEP_MS = 750;
+
+  const $ = id => document.getElementById(id);
+  const map = $("map");
+
+  // Opens on a representative finished attack: Aarnet, 60% vulnerable, config 1
+  // (10 of 19 nodes in 5 rounds, 5 of them by jumps; that config averages 33%).
+  const defaultNet = Math.max(0, DATA.networks.findIndex(n => n.name === "Aarnet"));
+  const state = { net: defaultNet, d: 0.6, s: 1, view: "attack", attackSeed: 1, shown: 0, timer: null };
+  try {
+    const saved = JSON.parse(localStorage.getItem("bbv-state-shared") || "null");
+    if (saved && saved.net < DATA.networks.length) Object.assign(state, { net: saved.net, d: saved.d, s: saved.s, view: saved.view });
+  } catch (e) {}
+  function save() {
+    try { localStorage.setItem("bbv-state-shared", JSON.stringify({ net: state.net, d: state.d, s: state.s, view: state.view })); } catch (e) {}
+  }
+
+  let net, cfg, adj, dist, p, attack, risk, nodeEls, edgeEls, edgeKey, pts, gJump;
+
+  // ---------- controls ----------
+  DATA.networks.forEach((n, i) => {
+    const o = document.createElement("option");
+    o.value = i; o.textContent = `${n.name} (${n.labels.length} nodes)`;
+    $("selNet").appendChild(o);
+  });
+  function segment(el, values, fmt, key) {
+    el.innerHTML = "";
+    values.forEach(v => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = fmt(v); b.dataset.v = v;
+      b.addEventListener("click", () => { state[key] = v; load(); });
+      el.appendChild(b);
+    });
+  }
+  segment($("segDen"), DATA.densities, v => `${Math.round(v * 100)}%`, "d");
+  segment($("segSeed"), DATA.seeds, v => `#${v}`, "s");
+  $("segView").querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => { state.view = b.dataset.v; stop(); render(); save(); }));
+  $("selNet").addEventListener("change", e => { state.net = +e.target.value; load(); });
+  $("btnPlay").addEventListener("click", () => state.timer ? stop() : play());
+  $("btnStep").addEventListener("click", () => { stop(); step(); });
+  $("btnRestart").addEventListener("click", () => { stop(); state.shown = 0; render(); });
+  $("btnNew").addEventListener("click", () => { stop(); state.attackSeed++; newAttack(); state.shown = 0; render(); play(); });
+
+  function pressed(el, val) {
+    el.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v == String(val))));
+  }
+
+  // ---------- data ----------
+  function load(finish) {
+    stop();
+    net = DATA.networks[state.net];
+    cfg = net.configs[`${state.d}_${state.s}`];
+    adj = buildAdj(net.labels.length, net.edges);
+    dist = buildDist(adj);
+    p = cfg.sw.map(i => P[i]);
+    state.attackSeed = 1;
+    newAttack();
+    computeRisk();
+    state.shown = finish ? attack.rounds : 0;
+    draw();
+    render();
+    save();
+  }
+  function seedFor(k) { return (state.net + 1) * 100003 + Math.round(state.d * 10) * 1009 + state.s * 101 + k * 7919; }
+  function newAttack() {
+    attack = runAttack(dist, cfg.sw, Q, DATA.floor, DATA.ceil, cfg.entry, mulberry32(seedFor(state.attackSeed)), DATA.max_rounds);
+  }
+  function computeRisk() {
+    const n = p.length, T = 2000, hits = new Float64Array(n);
+    const rand = mulberry32(seedFor(0) + 1);
+    let total = 0;
+    for (let t = 0; t < T; t++) {
+      const r = runAttack(dist, cfg.sw, Q, DATA.floor, DATA.ceil, cfg.entry, rand, DATA.max_rounds).round;
+      let f = 0;
+      for (let i = 0; i < n; i++) if (r[i] >= 0) { hits[i]++; f++; }
+      total += f / n;
+    }
+    risk = { node: Array.from(hits, h => h / T), mean: total / T };
+  }
+
+  // ---------- drawing ----------
+  function scaleXY() {
+    const xs = net.xy.map(a => a[0]), ys = net.xy.map(a => a[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    const sx = (W - 2 * PAD) / Math.max(maxX - minX, 1e-6), sy = (H - 2 * PAD) / Math.max(maxY - minY, 1e-6);
+    const s = Math.min(sx, sy);
+    const ox = (W - s * (maxX - minX)) / 2, oy = (H - s * (maxY - minY)) / 2;
+    return net.xy.map(([x, y]) => [ox + s * (x - minX), oy + s * (y - minY)]);
+  }
+  function radius(n) { return Math.max(6, Math.min(13, 15 - n / 13)); }
+
+  function draw() {
+    map.innerHTML = "";
+    pts = scaleXY();
+    const n = net.labels.length, r = radius(n);
+    const gE = document.createElementNS(SVGNS, "g"), gN = document.createElementNS(SVGNS, "g");
+    gJump = document.createElementNS(SVGNS, "g");
+    edgeEls = []; edgeKey = new Map();
+    net.edges.forEach(([u, v], i) => {
+      const l = document.createElementNS(SVGNS, "line");
+      l.setAttribute("x1", pts[u][0]); l.setAttribute("y1", pts[u][1]);
+      l.setAttribute("x2", pts[v][0]); l.setAttribute("y2", pts[v][1]);
+      l.setAttribute("class", "edge");
+      gE.appendChild(l); edgeEls.push(l);
+      edgeKey.set(u < v ? `${u}-${v}` : `${v}-${u}`, i);
+    });
+    const showLabels = n <= 30;
+    nodeEls = net.labels.map((lab, i) => {
+      const g = document.createElementNS(SVGNS, "g");
+      g.setAttribute("class", "node"); g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.style.setProperty("--r", r);
+      const c = document.createElementNS(SVGNS, "circle");
+      c.setAttribute("cx", pts[i][0]); c.setAttribute("cy", pts[i][1]); c.setAttribute("r", r);
+      const t = document.createElementNS(SVGNS, "text");
+      t.setAttribute("class", "rnd"); t.setAttribute("x", pts[i][0]); t.setAttribute("y", pts[i][1]);
+      g.appendChild(c); g.appendChild(t);
+      if (showLabels) {
+        const L = document.createElementNS(SVGNS, "text");
+        L.setAttribute("class", "lbl");
+        const right = pts[i][0] < W - 140;
+        L.setAttribute("x", pts[i][0] + (right ? r + 4 : -(r + 4)));
+        L.setAttribute("y", pts[i][1] + 3.5);
+        L.setAttribute("text-anchor", right ? "start" : "end");
+        L.textContent = lab;
+        g.appendChild(L);
+      }
+      const sel = () => { nodeEls.forEach(e => e.classList.remove("sel")); g.classList.add("sel"); showNode(i); };
+      g.addEventListener("mouseenter", sel); g.addEventListener("focus", sel); g.addEventListener("click", sel);
+      gN.appendChild(g);
+      return g;
+    });
+    map.appendChild(gE); map.appendChild(gJump); map.appendChild(gN);
+  }
+
+  function pClass(v) { return v >= 0.7 ? "var(--node-high)" : v >= 0.3 ? "var(--node-mid)" : v > DATA.floor + 1e-6 ? "var(--node-low)" : "var(--node-patched)"; }
+  function riskColor(f) {
+    const k = Math.min(4, Math.floor(f * 5));
+    return `var(--risk-${k})`;
+  }
+  const pct = x => `${(x * 100).toFixed(x < 0.1 && x > 0 ? 1 : 0)}%`;
+
+  function render(newRound) {
+    pressed($("segDen"), state.d); pressed($("segSeed"), state.s); pressed($("segView"), state.view);
+    $("selNet").value = state.net;
+    const n = p.length, isRisk = state.view === "risk";
+    $("legendAttack").hidden = isRisk; $("legendRisk").hidden = !isRisk;
+    $("playbar").querySelectorAll("button").forEach(b => b.disabled = isRisk);
+    $("stageTitle").textContent = net.name;
+    $("stageSub").textContent = `${n} nodes · ${net.edges.length} links · ${net.layout} layout`;
+
+    edgeEls.forEach(e => e.classList.remove("hit"));
+    gJump.innerHTML = "";
+    nodeEls.forEach((g, i) => {
+      const c = g.firstChild, t = c.nextSibling;
+      g.classList.toggle("entry", i === cfg.entry);
+      g.classList.remove("new");
+      if (isRisk) {
+        g.classList.remove("fallen");
+        c.style.fill = i === cfg.entry ? "var(--panel)" : riskColor(risk.node[i]);
+        t.textContent = "";
+        return;
+      }
+      const rr = attack.round[i];
+      const fallen = rr >= 0 && rr <= state.shown;
+      g.classList.toggle("fallen", fallen);
+      c.style.fill = fallen ? "" : pClass(p[i]);
+      t.textContent = fallen && rr > 0 ? rr : "";
+      if (fallen && attack.by[i] >= 0) {
+        const u = attack.by[i], key = u < i ? `${u}-${i}` : `${i}-${u}`;
+        if (edgeKey.has(key)) edgeEls[edgeKey.get(key)].classList.add("hit");
+        else {
+          // jumped past other nodes: draw a gently curved dashed line
+          const [x1, y1] = pts[u], [x2, y2] = pts[i];
+          const mx = (x1 + x2) / 2 - (y2 - y1) * 0.15, my = (y1 + y2) / 2 + (x2 - x1) * 0.15;
+          const path = document.createElementNS(SVGNS, "path");
+          path.setAttribute("d", `M${x1},${y1} Q${mx},${my} ${x2},${y2}`);
+          path.setAttribute("class", "jump");
+          gJump.appendChild(path);
+        }
+      }
+      if (fallen && rr === newRound && rr > 0) {
+        void c.getBoundingClientRect(); g.classList.add("new");
+      }
+    });
+
+    const fallenCount = isRisk ? null : attack.round.reduce((a, r) => a + (r >= 0 && r <= state.shown ? 1 : 0), 0);
+    if (isRisk) {
+      $("statsHead").textContent = "2,000 attacks from this entry point";
+      $("kFallen").textContent = "Average compromised";
+      $("vFallen").innerHTML = `${(risk.mean * n).toFixed(1)}<small> of ${n}</small>`;
+      $("vShare").textContent = pct(risk.mean);
+      $("shareBar").style.width = `${risk.mean * 100}%`;
+      $("roundReadout").textContent = "Risk map";
+    } else {
+      $("statsHead").textContent = `Attack #${state.attackSeed}`;
+      $("kFallen").textContent = "Compromised";
+      $("vFallen").innerHTML = `${fallenCount}<small> of ${n}</small>`;
+      $("vShare").textContent = pct(fallenCount / n);
+      $("shareBar").style.width = `${fallenCount / n * 100}%`;
+      const done = state.shown >= attack.rounds;
+      $("roundReadout").textContent = attack.rounds === 0
+        ? "Stopped at the entry: no neighbour fell"
+        : done ? `Round ${state.shown} of ${attack.rounds} · stopped`
+               : `Round ${state.shown} of ${attack.rounds}`;
+      $("btnStep").disabled = done;
+      $("btnPlay").disabled = done && !state.timer;
+      $("btnPlay").textContent = state.timer ? "Pause" : "Play";
+    }
+    $("vSweep").textContent = pct(cfg.sweep_mean);
+    $("vDpc").textContent = (state.d / net.pc).toFixed(2);
+  }
+
+  function showNode(i) {
+    const pk = PKG[cfg.sw[i]];
+    const rows = [
+      ["Software", pk.name.replace(" (no known CVEs)", "")],
+      ["Average exploit probability p", p[i].toFixed(3)],
+      pk.cve ? ["Worst foothold CVE (EPSS)", `${pk.cve} (${pk.epss.toFixed(3)})`] : ["Worst foothold CVE", "none, floor only"],
+      ["Links", String(adj[i].length)],
+    ];
+    if (state.view === "risk") {
+      rows.push(["Fell in", i === cfg.entry ? "every attack (entry)" : `${pct(risk.node[i])} of attacks`]);
+    } else {
+      const rr = attack.round[i];
+      let status = "not compromised";
+      if (i === cfg.entry) status = "entry point";
+      else if (rr >= 0 && rr <= state.shown) {
+        const from = attack.by[i], d = dist[from][i];
+        status = `round ${rr}, from ${net.labels[from]}` + (d > 1 ? ` (${d} links away)` : "");
+      }
+      else if (rr >= 0) status = `falls in round ${rr}`;
+      if (Q[cfg.sw[i]] > 0)
+        rows.push(["Exploit this attack", attack.held[cfg.sw[i]] ? `held (p ${DATA.ceil})` : `not held (p ${DATA.floor})`]);
+      rows.push(["Status", status]);
+    }
+    const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+    $("detail").innerHTML = `<div class="name">${esc(net.labels[i])}</div>` +
+      rows.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("");
+  }
+
+  // ---------- playback ----------
+  function step() {
+    if (state.shown >= attack.rounds) return false;
+    state.shown++;
+    render(state.shown);
+    return true;
+  }
+  function play() {
+    if (state.view !== "attack") return;
+    if (state.shown >= attack.rounds) { state.shown = 0; render(); }
+    state.timer = setInterval(() => { if (!step()) stop(); }, STEP_MS);
+    render();
+  }
+  function stop() {
+    if (state.timer) { clearInterval(state.timer); state.timer = null; }
+    if (net) render();
+  }
+
+  load(true);
+})();
+</script>

@@ -1,0 +1,137 @@
+{
+ "topology": "Compuserve",
+ "vulnerability_density": 0.8,
+ "num_entry_points": 1,
+ "seed": 4,
+ "adversary": "assume_breach_random_entry",
+ "catalog": "data/catalog/vulnerability_catalog.json",
+ "epss": "data/catalog/epss_scores.json",
+ "nodes": {
+  "0": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "1": {
+   "software": "Samba 4.20.5",
+   "n_cves": 1,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.8,
+   "p": 0.0658,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "2": {
+   "software": "OpenSSH 9.9p1",
+   "n_cves": 4,
+   "max_cvss": 9.4,
+   "mean_cvss": 8.1,
+   "p": 0.1195,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "3": {
+   "software": "nginx 1.26.2",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": true,
+   "is_privileged": false
+  },
+  "4": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "5": {
+   "software": "vsftpd 3.0.3",
+   "n_cves": 1,
+   "max_cvss": 7.4,
+   "mean_cvss": 7.4,
+   "p": 0.0682,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "6": {
+   "software": "nginx 1.4.0",
+   "n_cves": 7,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.1714,
+   "p": 0.8373,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "7": {
+   "software": "Apache Struts 2.3.31",
+   "n_cves": 12,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.4333,
+   "p": 0.95,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "8": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "9": {
+   "software": "Apache Struts 6.4.0",
+   "n_cves": 2,
+   "max_cvss": 9.8,
+   "mean_cvss": 9.3,
+   "p": 0.0607,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "10": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "11": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": false
+  },
+  "12": {
+   "software": "Fully patched (no known CVEs)",
+   "n_cves": 0,
+   "max_cvss": 0.0,
+   "mean_cvss": 0.0,
+   "p": 0.05,
+   "is_entry_point": false,
+   "is_privileged": true
+  },
+  "13": {
+   "software": "OpenSSL 1.0.1",
+   "n_cves": 17,
+   "max_cvss": 9.8,
+   "mean_cvss": 8.2353,
+   "p": 0.9498,
+   "is_entry_point": false,
+   "is_privileged": false
+  }
+ }
+}
