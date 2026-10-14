@@ -5,7 +5,7 @@ attacks on 20 real ISP backbones from the Internet Topology Zoo and measure how
 much of the variation in how far an attack spreads comes from the network's
 **topology**, and how much from its **software configuration**.
 
-**Current result** ([`results/SUMMARY.md`](results/SUMMARY.md)): at a fixed
+**Current result** ([`results/q1_variance_split.csv`](results/q1_variance_split.csv)): at a fixed
 share of vulnerable nodes, **topology explains 26%** of the variation in
 compromise and **configuration 74%**. Topology matters most when vulnerable
 nodes are scarce (38% at 20% density) and least when they are common (13% at
@@ -14,10 +14,8 @@ nodes are scarce (38% at 20% density) and least when they are common (13% at
 ## Layout
 
 ```
-README.md, CLAUDE.md     this file; project rules and decision log
 src/                     all code (run from the project root, see below)
-docs/                    SIMULATION.md: full plain-language documentation of the simulation
-                         (+ a Word copy, Simulation Documentation.docx)
+  placement/             original configuration generator and 12-package catalog
 data/
   networks/              20 Topology Zoo .graphml files
   catalog/               software catalog (NVD) and EPSS scores, cached
@@ -26,14 +24,13 @@ data/
   topology_features.csv  10 structural features + percolation threshold pc
   ingestion_log.csv      what loading dropped (largest component, parallel links)
 results/
-  SUMMARY.md             the headline numbers in plain language
   q1_variance_split.csv  topology vs configuration, overall and per density
   network_risk.csv       mean compromise per network and density
   sweep.csv              one row per scenario; all analysis reads only this
+  rewiring/              degree-preserving rewiring experiment
   sensitivity/independent_exploits/   same outputs under the old exploit model
 figures/                 7 PDF figures + FIGURES.md (title, caption, how to read each)
 viz/                     interactive propagation viewer (single HTML page)
-archive/                 outputs from before the 2026-10-12 model changes
 ```
 
 ## Run order
@@ -110,5 +107,4 @@ setting, not something to explain.
 Topology Zoo nodes are points of presence, not hosts; all 20 networks are ISP
 backbones; the decay constant 0.5 has no empirical source; EPSS is a 30-day
 in-the-wild probability used as an exploit-availability chance; CVSS v2's
-"partial" is a looser foothold bar than v3's "high". See CLAUDE.md for the full
-list and every modelling decision with its date.
+"partial" is a looser foothold bar than v3's "high".
