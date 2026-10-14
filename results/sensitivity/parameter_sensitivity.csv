@@ -1,0 +1,7 @@
+variant,topology_share,mean_compromised,topology_share_d0.2,topology_share_d0.4,topology_share_d0.6,topology_share_d0.8
+"baseline (floor 0.05, decay 0.5)",0.2568,0.3795,0.3704,0.2495,0.1921,0.1312
+floor 0.02,0.1764,0.2931,0.4306,0.0966,0.0129,0.0000
+floor 0.10,0.5925,0.5510,0.6287,0.6146,0.5630,0.5248
+decay 0.3,0.4008,0.2483,0.5863,0.4248,0.3488,0.1584
+decay 0.7,0.6100,0.5346,0.6613,0.6270,0.5420,0.5638
+EPSS sqrt mapping,0.2678,0.4180,0.3813,0.2528,0.2063,0.1332
