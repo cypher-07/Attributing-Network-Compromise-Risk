@@ -1,0 +1,19 @@
+quantity,value
+draws,128.0000
+topology share: minimum,0.0150
+topology share: 10th percentile,0.1784
+topology share: median,0.3847
+topology share: 90th percentile,0.6928
+topology share: maximum,0.8832
+fraction of draws where configuration explains more than topology,0.7344
+fraction of draws where topology share is under one third,0.3281
+"rank correlation, topology share vs floor",0.8048
+"rank correlation, topology share vs decay",0.2056
+"rank correlation, mean compromised vs floor",0.6244
+"rank correlation, mean compromised vs decay",0.7610
+percolation threshold vs network risk: weakest (rho),-0.3068
+percolation threshold vs network risk: strongest (rho),-0.9429
+software exploitability vs risk: weakest correlation,0.1973
+software exploitability vs risk: strongest correlation,0.8536
+mean compromised: minimum,0.2244
+mean compromised: maximum,0.7448
