@@ -1,0 +1,7 @@
+design,density,topology,configuration,attacker,network_x_attacker,residual
+assume_breach_only,all,0.2579,0.7421,,,
+three_attackers,all,0.2501,0.5642,0.0943,0.0143,0.0771
+three_attackers,20%,0.3460,0.3561,0.1825,0.0226,0.0929
+three_attackers,40%,0.2335,0.6146,0.0740,0.0146,0.0633
+three_attackers,60%,0.1935,0.6793,0.0387,0.0053,0.0832
+three_attackers,80%,0.1615,0.7382,0.0269,0.0085,0.0648
