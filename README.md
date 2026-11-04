@@ -108,3 +108,27 @@ Topology Zoo nodes are points of presence, not hosts; all 20 networks are ISP
 backbones; the decay constant 0.5 has no empirical source; EPSS is a 30-day
 in-the-wild probability used as an exploit-availability chance; CVSS v2's
 "partial" is a looser foothold bar than v3's "high".
+
+
+## Extensions (Nov 2026)
+
+- **Three attackers** (`src/attackers.py`): the midterm assume-breach attacker, an
+  external attacker that starts at a random dead-end machine (redrawn every trial), and
+  an insider that starts at the best-connected machines (top 1% by links).
+- **Q2** (`src/q2_predict.py`): train a risk predictor on one family of networks, test it
+  on another. Within the 20 real networks, adding one structural number (percolation
+  threshold) lifts ranking of unseen networks from -0.31 to 0.90.
+- **How firm is the 26%?** (`src/uncertainty.py`): it depends on two assumed settings.
+  Over 128 plausible settings it ranges from 2% to 88%, and configuration beats topology
+  in 73% of them.
+- **Patching test** (`src/patching.py`): fixing the easiest-to-break and best-connected
+  machines saves about twice as much as fixing random ones.
+
+Details: [`docs/ATTACKERS_AND_Q2.md`](docs/ATTACKERS_AND_Q2.md),
+[`docs/ROBUSTNESS_AND_DEFENCES.md`](docs/ROBUSTNESS_AND_DEFENCES.md).
+
+```bash
+python src/sweep_attackers.py && python src/q1_adversary.py && python src/q2_predict.py
+python src/uncertainty.py 128 1000 && python src/reproduction.py && python src/patching.py
+python -m pytest tests -q
+```
