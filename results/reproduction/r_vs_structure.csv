@@ -1,0 +1,6 @@
+model,r2,spearman_scenarios,spearman_networks
+config_only,0.8047,0.8964,-0.3113
+pc_linear,0.9084,0.9645,0.8962
+structure_gb,0.9231,0.9621,0.8872
+r_only,0.7408,0.9074,0.7519
+r_plus_config,0.9026,0.9630,0.8075

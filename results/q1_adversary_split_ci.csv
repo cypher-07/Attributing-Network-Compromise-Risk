@@ -1,0 +1,6 @@
+component,ci_low,ci_high
+topology,0.0889,0.3721
+configuration,0.4539,0.7095
+attacker,0.0719,0.1299
+network_x_attacker,0.0051,0.0208
+residual,0.0635,0.0951
