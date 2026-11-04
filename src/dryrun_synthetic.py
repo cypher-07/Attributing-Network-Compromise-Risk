@@ -6,7 +6,7 @@ end before the team's real synthetic networks exist.
 Writes <out_dir>/networks/*.graphml and <out_dir>/configs/*.json in exactly the
 format of the real data (config names {topology}_d{density}_s{seed}.json,
 densities 0.2-0.8, seeds 1-5, 24-package catalog, is_entry_point and
-is_privileged flags; privileged = the highest-degree node, as in the real
+is_privileged flags; the highest-degree node is marked privileged, as in the real
 configs). Four generic families, five networks each, 40 nodes. Results from
 these networks mean nothing for the project; they only prove the code runs.
 Replace with the real synthetic families when they arrive.

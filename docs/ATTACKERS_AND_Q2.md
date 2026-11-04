@@ -11,15 +11,18 @@ Same simulator, same configurations, same 2,000 trials. Only the starting point 
 |---|---|---|
 | `assume_breach_random_entry` | the config's `is_entry_point` (one node, random) | the midterm attacker |
 | `external_border_entry` | a random **border node**, redrawn every trial | an outsider who gets in at the edge |
-| `insider_privileged_entry` | a **privileged node** (`is_privileged`) | an insider with an admin account |
+| `insider_privileged_entry` | a **hub** (top 1% best-connected machines) | an insider with an admin account |
 
 **Border node** = a node with a single link (a dead end). If a network has none,
 the nodes with the fewest links. Chosen from the wiring alone, never from the
 software. Code: `src/attackers.py`.
 
-**Privileged node.** In every real config it is the network's biggest hub (the
-node with the most links; Colt has two). So the insider attacker is "the attacker
-starts at the biggest hub".
+**Hub (insider start).** The best-connected machines: the top 1% by number of links,
+at least one, ties broken by node name. It is computed from the wiring alone, with the
+same rule `assign_config_v3.py` uses for `is_privileged`, so on the 20 real networks it
+equals that flag in all 400 configs (tested) and no result changed. One hub on most
+networks, two on Colt (153 machines); Aarnet and Marwan have tied hubs and the name
+breaks the tie. Synthetic networks need no `is_privileged` flag. Code: `src/attackers.py`.
 
 Entry is drawn per trial (not once per config), so a scenario's risk averages
 over all its border nodes.
@@ -108,9 +111,8 @@ family needs:
    configs named `<name>_d<density>_s<seed>.json`.
 2. Densities 0.2, 0.4, 0.6, 0.8 and seeds 1-5 (the sample uses 0.3/0.5/0.7 and 2 seeds).
 3. Per node: `software` drawn from the 24-package catalog (or
-   `Fully patched (no known CVEs)`), `is_entry_point`, and `is_privileged`.
-   The sample files have no `is_privileged` flag, so the insider attacker cannot
-   start. Use the same rule as the real configs: privileged = highest-degree node.
+   `Fully patched (no known CVEs)`), and `is_entry_point`.
+   `is_privileged` is optional: the insider's hub is computed from the graph.
 4. Real configs list `p` per node; the sweep recomputes it from the catalog, so it
    is optional but must agree if present.
 5. Network size: the samples have 15 nodes; the real networks span 11-153.

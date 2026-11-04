@@ -33,16 +33,32 @@ def test_border_falls_back_to_fewest_links_when_no_dead_end():
     assert set(attackers.border_nodes(H, list(H))) == {4, 5}   # 2 is the minimum
 
 
-def test_insider_starts_at_the_privileged_node():
-    G = nx.path_graph(3)
-    cfg = {0: {"is_entry_point": True, "is_privileged": False},
-           1: {"is_entry_point": False, "is_privileged": True},
-           2: {"is_entry_point": False, "is_privileged": False}}
-    assert attackers.entry_set("insider_privileged_entry", G, list(G), cfg) == [1]
-    assert attackers.entry_set("assume_breach_random_entry", G, list(G), cfg) == [0]
-    cfg[1]["is_privileged"] = False
-    with pytest.raises(ValueError):
-        attackers.entry_set("insider_privileged_entry", G, list(G), cfg)
+def test_insider_starts_at_the_best_connected_machine_without_any_flag():
+    G = nx.star_graph(5)                       # centre 0 has 5 links
+    cfg = {v: {"is_entry_point": v == 1} for v in G}      # no is_privileged key at all
+    assert attackers.entry_set("insider_privileged_entry", G, list(G), cfg) == [0]
+    assert attackers.entry_set("assume_breach_random_entry", G, list(G), cfg) == [1]
+
+
+def test_hub_ties_are_broken_by_name_and_one_percent_rule_applies():
+    G = nx.cycle_graph(6)                      # all tied: the first name wins
+    assert attackers.hub_nodes(G, list(G)) == [0]
+    big = nx.barabasi_albert_graph(200, 2, seed=1)   # 1% of 200 = 2 hubs
+    assert len(attackers.hub_nodes(big, list(big))) == 2
+
+
+def test_hubs_equal_the_configs_privileged_flag_on_every_real_config():
+    """The change from flag to graph rule must not move a single real scenario."""
+    import json
+    from paths import CONFIGS
+    from topology import load_topology, topology_names
+    for t in topology_names():
+        G, nodes, _ = load_topology(t)
+        hubs = set(attackers.hub_nodes(G, nodes))
+        for f in os.listdir(CONFIGS):
+            if f.startswith(t + "_d"):
+                cn = json.load(open(os.path.join(CONFIGS, f)))["nodes"]
+                assert {v for v in nodes if cn[v]["is_privileged"]} == hubs
 
 
 def test_entries_stay_inside_the_set_and_are_reproducible():
