@@ -3,27 +3,31 @@
     python src/synthetic.py
 
 Writes, without touching anything for the 20 Zoo networks:
-  data/networks_synthetic/<family>_<i>.graphml   20 graphs, 5 per family
-  data/configs_synthetic/<name>_d<density>_s<seed>.json   400 configs
+  data/networks_synthetic/<family>_<i>.graphml   40 graphs, 10 per family
+  data/configs_synthetic/<name>_d<density>_s<seed>.json   800 configs
   data/configs_synthetic_manifest.csv
   data/synthetic_features.csv                    10 features + n, edges, pc
 
-Families (5 graphs each)
-------------------------
+Families (10 graphs each)
+-------------------------
   scale_free   extended Barabasi-Albert, m=1, p=0.45 (preferential attachment, hubs)
   random       random tree + uniformly random extra edges (1.4n edges total)
   small_world  Watts-Strogatz core (k=4, p=0.1) on 75% of nodes + dead-end leaves
-  fat_tree     k-ary fat-tree switches (+ optional hosts); deterministic
+  fat_tree     k-ary fat-tree switches with hosts under the edge switches; deterministic
 
-Design choices (so the families differ in STRUCTURE, not in size or density)
----------------------------------------------------------------------------
-  * scale_free, random, small_world share the same five sizes (20, 30, 45, 65,
-    90 nodes) and the same mean degree (~4), so any difference between them is
-    degree distribution / clustering / path length, not size or edge count.
-    Zoo networks are sparser (mean degree ~2.8); that is a stated limitation.
+Design choices (so the families differ in STRUCTURE, not in size)
+-----------------------------------------------------------------
+  * scale_free, random, small_world share the same ten sizes (15, 20, 25, 30,
+    40, 50, 60, 70, 85, 100 nodes), so size does not separate the families.
+  * Every graph has dead-end (degree-1) machines, like the Zoo networks,
+    because the external attacker starts at one.
+  * Mean degree is about 2.4-4 (random 2.8, small_world 3.5, scale_free and
+    fat_tree vary with size), close to the Zoo's ~2.8 but not identical;
+    that is a stated limitation.
   * fat_tree is fixed by its parameters: (k, hosts per edge switch) =
-    (4,0) 20 nodes, (4,2) 36, (6,0) 45, (6,1) 63, (8,0) 80. Its five graphs
-    differ in size only, with no randomness, so it has the least variety.
+    (4,1) 28 nodes, (4,2) 36, (4,3) 44, (4,4) 52, (4,5) 60, (4,6) 68,
+    (6,1) 63, (6,2) 81, (6,3) 99, (6,4) 117. It has no randomness, so it has
+    the least variety.
   * Graph seeds are fixed (SEED_BASE + index) so the files regenerate exactly.
 
 Configs reuse the real-network rules, unchanged:
