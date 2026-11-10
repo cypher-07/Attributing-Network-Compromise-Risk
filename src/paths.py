@@ -29,3 +29,8 @@ def rel(path):
     """Project-relative path with forward slashes, for printing and for
     references stored inside data files."""
     return os.path.relpath(path, ROOT).replace(os.sep, "/")
+
+NETWORKS_SYN = os.path.join(DATA, "networks_synthetic")
+CONFIGS_SYN = os.path.join(DATA, "configs_synthetic")
+CONFIGS_SYN_MANIFEST = os.path.join(DATA, "configs_synthetic_manifest.csv")
+SYN_FEATURES = os.path.join(DATA, "synthetic_features.csv")
