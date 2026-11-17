@@ -110,7 +110,7 @@ in-the-wild probability used as an exploit-availability chance; CVSS v2's
 "partial" is a looser foothold bar than v3's "high".
 
 
-## Extensions (Nov 2026)
+## Extensions
 
 - **Three attackers** (`src/attackers.py`): the midterm assume-breach attacker, an
   external attacker that starts at a random dead-end machine (redrawn every trial), and
