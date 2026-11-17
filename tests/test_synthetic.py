@@ -11,12 +11,12 @@ from paths import NETWORKS_SYN, CONFIGS_SYN
 from simulate import prepare, simulate
 
 FAMS = ("scale_free", "random", "small_world", "fat_tree")
-NAMES = [f"{f}_{i}" for f in FAMS for i in range(1, 11)]
+NAMES = [f"{f}_{i}" for f in FAMS for i in range(1, 31)]
 
 
 def test_counts():
-    assert len(glob.glob(os.path.join(NETWORKS_SYN, "*.graphml"))) == 40
-    assert len(glob.glob(os.path.join(CONFIGS_SYN, "*.json"))) == 800
+    assert len(glob.glob(os.path.join(NETWORKS_SYN, "*.graphml"))) == 120
+    assert len(glob.glob(os.path.join(CONFIGS_SYN, "*.json"))) == 2400
 
 
 @pytest.mark.parametrize("name", NAMES)
@@ -35,7 +35,7 @@ def test_has_dead_end_machines(name):
 
 def test_same_size_and_degree_across_matched_families():
     sizes = {f: sorted(load_topology(f"{f}_{i}", NETWORKS_SYN)[0].number_of_nodes()
-                       for i in range(1, 11)) for f in FAMS[:3]}
+                       for i in range(1, 31)) for f in FAMS[:3]}
     assert sizes["scale_free"] == sizes["random"] == sizes["small_world"]
 
 

@@ -3,12 +3,12 @@
     python src/synthetic.py
 
 Writes, without touching anything for the 20 Zoo networks:
-  data/networks_synthetic/<family>_<i>.graphml   40 graphs, 10 per family
-  data/configs_synthetic/<name>_d<density>_s<seed>.json   800 configs
+  data/networks_synthetic/<family>_<i>.graphml   120 graphs, 30 per family
+  data/configs_synthetic/<name>_d<density>_s<seed>.json   2400 configs
   data/configs_synthetic_manifest.csv
   data/synthetic_features.csv                    10 features + n, edges, pc
 
-Families (10 graphs each)
+Families (30 graphs each)
 -------------------------
   scale_free   extended Barabasi-Albert, m=1, p=0.45 (preferential attachment, hubs)
   random       random tree + uniformly random extra edges (1.4n edges total)
@@ -18,7 +18,10 @@ Families (10 graphs each)
 Design choices (so the families differ in STRUCTURE, not in size)
 -----------------------------------------------------------------
   * scale_free, random, small_world share the same ten sizes (15, 20, 25, 30,
-    40, 50, 60, 70, 85, 100 nodes), so size does not separate the families.
+    40, 50, 60, 70, 85, 100 nodes), each drawn three times with different
+    seeds (30 graphs per family), so size does not separate the families.
+    The first ten of every family (names _1 to _10) are unchanged from the
+    first release, so earlier results stay valid as a subset.
   * Every graph has dead-end (degree-1) machines, like the Zoo networks,
     because the external attacker starts at one.
   * Mean degree is about 2.4-4 (random 2.8, small_world 3.5, scale_free and
@@ -26,8 +29,10 @@ Design choices (so the families differ in STRUCTURE, not in size)
     that is a stated limitation.
   * fat_tree is fixed by its parameters: (k, hosts per edge switch) =
     (4,1) 28 nodes, (4,2) 36, (4,3) 44, (4,4) 52, (4,5) 60, (4,6) 68,
-    (6,1) 63, (6,2) 81, (6,3) 99, (6,4) 117. It has no randomness, so it has
-    the least variety.
+    (6,1) 63, (6,2) 81, (6,3) 99, (6,4) 117 for graphs _1 to _10, which have
+    no randomness. Graphs _11 to _30 repeat those ten settings twice with
+    each edge switch getting hosts +/- 1 at random (seeded), so sizes vary
+    slightly; fat_tree still has the least variety.
   * Graph seeds are fixed (SEED_BASE + index) so the files regenerate exactly.
 
 Configs reuse the real-network rules, unchanged:
@@ -45,6 +50,7 @@ from paths import (NETWORKS_SYN, CONFIGS_SYN, CONFIGS_SYN_MANIFEST,
                    SYN_FEATURES, CATALOG, EPSS, rel)
 
 SEED_BASE = 610
+REPLICATES = 3                      # 10 base sizes x 3 replicates = 30 per family
 SIZES = (15, 20, 25, 30, 40, 50, 60, 70, 85, 100)
 FAT_TREE_PARAMS = ((4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6),
                    (6, 1), (6, 2), (6, 3), (6, 4))
@@ -54,9 +60,10 @@ FAMILIES = ("scale_free", "random", "small_world", "fat_tree")
 PATCHED = "Fully patched (no known CVEs)"
 
 
-def fat_tree(k, hosts_per_edge=0):
+def fat_tree(k, hosts_per_edge=0, rng=None):
     """k-ary fat-tree: (k/2)^2 core, k pods of k/2 aggregation + k/2 edge
-    switches, optional hosts under each edge switch. Nodes carry a 'role'."""
+    switches, optional hosts under each edge switch. Nodes carry a 'role'.
+    With rng, each edge switch gets hosts_per_edge +/- 1 hosts (at least 1)."""
     h = k // 2
     G = nx.Graph()
     core = [("c", i) for i in range(h * h)]
@@ -76,7 +83,9 @@ def fat_tree(k, hosts_per_edge=0):
             for j in range(h):
                 G.add_edge(a, core[i * h + j])
         for e in edg:
-            for x in range(hosts_per_edge):
+            n_hosts = (hosts_per_edge if rng is None else
+                       rng.randint(max(1, hosts_per_edge - 1), hosts_per_edge + 1))
+            for x in range(n_hosts):
                 host = ("h",) + e[1:] + (x,)
                 G.add_node(host, role="host")
                 G.add_edge(e, host)
@@ -119,15 +128,19 @@ def build_networks():
     attr. Every family has dead-end (degree-1) machines, like the Zoo
     networks, because the external attacker starts at one."""
     out = {}
-    for i, n in enumerate(SIZES):
-        seed = SEED_BASE + i
-        out[f"scale_free_{i+1}"] = connected_or_redraw(
-            lambda t: nx.extended_barabasi_albert_graph(n, 1, 0.45, 0, seed=1000 * (t + 1) + seed))
-        out[f"random_{i+1}"] = random_graph(n, seed)
-        out[f"small_world_{i+1}"] = connected_or_redraw(
-            lambda t: small_world_with_leaves(n, 1000 * (t + 1) + seed))
-    for i, (k, hosts) in enumerate(FAT_TREE_PARAMS):
-        out[f"fat_tree_{i+1}"] = fat_tree(k, hosts)
+    for rep in range(REPLICATES):
+        for i, n in enumerate(SIZES):
+            j = rep * len(SIZES) + i + 1            # 1..30; rep 0 = the original 10
+            seed = SEED_BASE + 100 * rep + i
+            out[f"scale_free_{j}"] = connected_or_redraw(
+                lambda t: nx.extended_barabasi_albert_graph(n, 1, 0.45, 0, seed=1000 * (t + 1) + seed))
+            out[f"random_{j}"] = random_graph(n, seed)
+            out[f"small_world_{j}"] = connected_or_redraw(
+                lambda t: small_world_with_leaves(n, 1000 * (t + 1) + seed))
+        for i, (k, hosts) in enumerate(FAT_TREE_PARAMS):
+            j = rep * len(FAT_TREE_PARAMS) + i + 1
+            rng = None if rep == 0 else random.Random(SEED_BASE + 100 * rep + i)
+            out[f"fat_tree_{j}"] = fat_tree(k, hosts, rng)
     for name, G in out.items():
         G = nx.Graph(G)
         G.remove_edges_from(list(nx.selfloop_edges(G)))
