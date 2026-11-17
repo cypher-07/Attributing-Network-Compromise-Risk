@@ -1,0 +1,43 @@
+family,design,networks,component,share,ci_low,ci_high
+fat_tree,assume_breach_only,30,topology,0.4831,0.3232,0.5823
+fat_tree,assume_breach_only,30,configuration,0.5169,0.4177,0.6768
+fat_tree,three_attackers,30,topology,0.4984,0.3413,0.5892
+fat_tree,three_attackers,30,configuration,0.3875,0.3099,0.5124
+fat_tree,three_attackers,30,attacker,0.0601,0.0488,0.0788
+fat_tree,three_attackers,30,network_x_attacker,0.0076,0.0033,0.0118
+fat_tree,three_attackers,30,residual,0.0465,0.0376,0.0603
+random,assume_breach_only,30,topology,0.1213,0.0388,0.1913
+random,assume_breach_only,30,configuration,0.8787,0.8087,0.9612
+random,three_attackers,30,topology,0.1233,0.0416,0.1971
+random,three_attackers,30,configuration,0.6806,0.6089,0.7625
+random,three_attackers,30,attacker,0.1103,0.0946,0.1301
+random,three_attackers,30,network_x_attacker,0.0031,0.0000,0.0056
+random,three_attackers,30,residual,0.0827,0.0676,0.1003
+real,assume_breach_only,20,topology,0.2579,0.0724,0.4017
+real,assume_breach_only,20,configuration,0.7421,0.5983,0.9276
+real,three_attackers,20,topology,0.2501,0.0889,0.3721
+real,three_attackers,20,configuration,0.5642,0.4539,0.7095
+real,three_attackers,20,attacker,0.0943,0.0719,0.1299
+real,three_attackers,20,network_x_attacker,0.0143,0.0051,0.0208
+real,three_attackers,20,residual,0.0771,0.0635,0.0951
+scale_free,assume_breach_only,30,topology,0.6169,0.4794,0.7049
+scale_free,assume_breach_only,30,configuration,0.3831,0.2951,0.5206
+scale_free,three_attackers,30,topology,0.6006,0.4561,0.6896
+scale_free,three_attackers,30,configuration,0.3223,0.2446,0.4445
+scale_free,three_attackers,30,attacker,0.0333,0.0251,0.0465
+scale_free,three_attackers,30,network_x_attacker,0.0022,0.0000,0.0039
+scale_free,three_attackers,30,residual,0.0415,0.0268,0.0627
+small_world,assume_breach_only,30,topology,0.0470,0.0000,0.1089
+small_world,assume_breach_only,30,configuration,0.9530,0.8911,1.0000
+small_world,three_attackers,30,topology,0.0240,0.0000,0.0723
+small_world,three_attackers,30,configuration,0.7986,0.7464,0.8378
+small_world,three_attackers,30,attacker,0.1017,0.0893,0.1152
+small_world,three_attackers,30,network_x_attacker,0.0000,0.0000,0.0044
+small_world,three_attackers,30,residual,0.0757,0.0617,0.0945
+ALL (pooled),assume_breach_only,140,topology,0.4343,0.3389,0.5143
+ALL (pooled),assume_breach_only,140,configuration,0.5657,0.4857,0.6611
+ALL (pooled),three_attackers,140,topology,0.4210,0.3254,0.4978
+ALL (pooled),three_attackers,140,configuration,0.4549,0.3935,0.5294
+ALL (pooled),three_attackers,140,attacker,0.0627,0.0529,0.0746
+ALL (pooled),three_attackers,140,network_x_attacker,0.0074,0.0051,0.0096
+ALL (pooled),three_attackers,140,residual,0.0540,0.0459,0.0647

@@ -1,0 +1,40 @@
+quantity,value
+"config_only: R2, median",0.5132
+"config_only: R2, worst draw",0.0448
+"config_only: rank of unseen networks, median",0.1983
+"config_only: rank, worst draw",0.0325
+"pc_linear: R2, median",0.5489
+"pc_linear: R2, worst draw",-0.6814
+"pc_linear: rank of unseen networks, median",0.6713
+"pc_linear: rank, worst draw",0.4870
+"structure_gb: R2, median",0.7784
+"structure_gb: R2, worst draw",0.3979
+"structure_gb: rank of unseen networks, median",0.8039
+"structure_gb: rank, worst draw",0.5196
+draws where structure_gb beats software-only on R2 (average),1.0000
+draws where structure_gb ranks unseen networks better,1.0000
+fewest pairs (of 20) where structure_gb beats software-only,15.0000
+"topology share, fat_tree: median",0.5319
+"topology share, fat_tree: minimum",0.1208
+"topology share, fat_tree: maximum",0.9415
+"draws where configuration beats topology, fat_tree",0.5000
+"topology share, random: median",0.1791
+"topology share, random: minimum",0.0274
+"topology share, random: maximum",0.8991
+"draws where configuration beats topology, random",0.7083
+"topology share, real: median",0.3938
+"topology share, real: minimum",0.0731
+"topology share, real: maximum",0.8022
+"draws where configuration beats topology, real",0.8333
+"topology share, scale_free: median",0.6760
+"topology share, scale_free: minimum",0.0464
+"topology share, scale_free: maximum",0.9574
+"draws where configuration beats topology, scale_free",0.3750
+"topology share, small_world: median",0.2267
+"topology share, small_world: minimum",0.0000
+"topology share, small_world: maximum",0.8564
+"draws where configuration beats topology, small_world",0.8333
+"topology share, ALL: median",0.5367
+"topology share, ALL: minimum",0.2478
+"topology share, ALL: maximum",0.9194
+"draws where configuration beats topology, ALL",0.5000

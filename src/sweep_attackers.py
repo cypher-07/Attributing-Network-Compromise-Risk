@@ -1,6 +1,6 @@
 """Sweep with the three adversaries (see attackers.py).
 
-    python src/sweep_attackers.py [n_trials] [networks_dir] [configs_dir] [out_csv]
+    python src/sweep_attackers.py [n_trials] [networks_dir] [configs_dir] [out_csv] [family|auto]
 
 Same model as sweep.py (decay 0.5, floor 0.05, shared exploits); the only
 difference is where the attack starts. For assume_breach_random_entry the rows
@@ -23,6 +23,14 @@ from sweep import sim_seed, DENSITIES, SEEDS, PATCHED
 from paths import CONFIGS, CATALOG, EPSS, NETWORKS, RESULTS, rel
 
 OUT = os.path.join(RESULTS, "sweep_attackers.csv")
+
+
+def family_of(topo, family):
+    """family="auto": the network's name without its trailing number (scale_free_3 -> scale_free)."""
+    if family == "auto":
+        head, _, tail = topo.rpartition("_")
+        return head if head and tail.isdigit() else topo
+    return family
 
 
 def run(n_trials=2000, net_dir=NETWORKS, cfg_dir=CONFIGS, out=OUT, family="real",
@@ -53,7 +61,7 @@ def run(n_trials=2000, net_dir=NETWORKS, cfg_dir=CONFIGS, out=OUT, family="real"
                     frac = simulate(A, D, p, entry, n_trials, mode="decay",
                                     seed=seed, shared=shared)["frac"]
                     rows.append({
-                        "topo_id": topo, "family": family, "n_nodes": n, "density": d,
+                        "topo_id": topo, "family": family_of(topo, family), "n_nodes": n, "density": d,
                         "config_seed": s, "adversary": adv, "mode": "decay",
                         "floor": P_FLOOR, "exploits": "shared",
                         "compromise_fraction": float(frac.mean()),
@@ -81,4 +89,5 @@ if __name__ == "__main__":
     run(int(a[1]) if len(a) > 1 else 2000,
         a[2] if len(a) > 2 else NETWORKS,
         a[3] if len(a) > 3 else CONFIGS,
-        a[4] if len(a) > 4 else OUT)
+        a[4] if len(a) > 4 else OUT,
+        a[5] if len(a) > 5 else "real")
