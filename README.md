@@ -118,6 +118,14 @@ in-the-wild probability used as an exploit-availability chance; CVSS v2's
 - **Q2** (`src/q2_predict.py`): train a risk predictor on one family of networks, test it
   on another. Within the 20 real networks, adding one structural number (percolation
   threshold) lifts ranking of unseen networks from -0.31 to 0.90.
+- **Five network families, 140 networks** (20 real + 30 each of scale-free, random,
+  small-world, fat-tree; `data/networks_synthetic`). A predictor that knows structure carries
+  over to families it never saw (R2 0.88, ranking 0.85) and beats software-only (0.68, 0.21)
+  in all 20 train/test pairs and in all 24 settings draws (`src/q2_lofo.py`,
+  `src/q2_uncertainty.py`). The topology share of variation depends on the family:
+  scale-free 62%, fat-tree 48%, real 26%, random 12%, small-world 5% (`src/q1_families.py`);
+  it is a property of how varied the shapes in a sample are, not a law, and it moves widely
+  with the assumed settings. Figures: `figures/fig_q1_families`, `figures/fig_settings_check`.
 - **How firm is the 26%?** (`src/uncertainty.py`): it depends on two assumed settings.
   Over 128 plausible settings it ranges from 2% to 88%, and configuration beats topology
   in 73% of them.
@@ -125,10 +133,26 @@ in-the-wild probability used as an exploit-availability chance; CVSS v2's
   machines saves about twice as much as fixing random ones.
 
 Details: [`docs/ATTACKERS_AND_Q2.md`](docs/ATTACKERS_AND_Q2.md),
-[`docs/ROBUSTNESS_AND_DEFENCES.md`](docs/ROBUSTNESS_AND_DEFENCES.md).
+[`docs/ROBUSTNESS_AND_DEFENCES.md`](docs/ROBUSTNESS_AND_DEFENCES.md),
+[`docs/SYNTHETIC_Q2_RESULTS.md`](docs/SYNTHETIC_Q2_RESULTS.md),
+[`docs/Q1_ACROSS_FAMILIES.md`](docs/Q1_ACROSS_FAMILIES.md).
 
 ```bash
 python src/sweep_attackers.py && python src/q1_adversary.py && python src/q2_predict.py
 python src/uncertainty.py 128 1000 && python src/reproduction.py && python src/patching.py
 python -m pytest tests -q
 ```
+
+Across the five families (the sweep takes a few minutes; the settings check about 40 minutes):
+
+```bash
+python src/sweep_attackers.py 2000 data/networks_synthetic data/configs_synthetic results/sweep_attackers_synthetic.csv auto
+python src/combine_families.py && python src/q1_families.py
+python src/q2_importance.py && python src/q2_lofo.py
+python src/q2_uncertainty.py 24 1000
+python src/plots_families.py
+```
+
+Limits: the synthetic families are our own constructions (some denser than real backbones),
+the floor (0.05) and decay (0.5) are assumptions, and software is placed independently of
+a machine's position.
