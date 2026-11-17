@@ -1,0 +1,6 @@
+trained_on,fat_tree,random,real,scale_free,small_world
+fat_tree,1.000,0.421,0.591,0.765,0.406
+random,0.421,1.000,0.462,0.394,0.456
+real,0.591,0.462,1.000,0.741,0.697
+scale_free,0.765,0.394,0.741,1.000,0.721
+small_world,0.406,0.456,0.697,0.721,1.000

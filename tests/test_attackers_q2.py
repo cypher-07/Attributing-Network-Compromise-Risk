@@ -186,3 +186,40 @@ def test_q2_a_predictor_with_signal_beats_the_mean(tmp_path):
     res = q2_predict.evaluate(df, cfg)
     off = res[res.train != res.test].groupby("model").r2.mean()
     assert off["structure_gb"] > off["mean"] + 0.3
+
+
+# ---------- synthetic families ----------
+def test_family_is_taken_from_the_network_name():
+    import sweep_attackers as sa
+    assert sa.family_of("scale_free_3", "auto") == "scale_free"
+    assert sa.family_of("fat_tree_10", "auto") == "fat_tree"
+    assert sa.family_of("Aarnet", "auto") == "Aarnet"
+    assert sa.family_of("scale_free_3", "real") == "real"
+
+
+def test_synthetic_sweep_has_four_families_and_a_dead_end_everywhere():
+    p = os.path.join(RESULTS, "sweep_attackers_synthetic.csv")
+    if not os.path.exists(p):
+        pytest.skip("synthetic results not present")
+    s = pd.read_csv(p)
+    assert set(s.family) == {"scale_free", "random", "small_world", "fat_tree"}
+    per = s.groupby("family").topo_id.nunique()
+    assert per.nunique() == 1 and per.iloc[0] >= 10          # same number of networks in every family
+    assert len(s) == per.sum() * 60 and s.compromise_fraction.between(0, 1).all()   # 4 densities x 5 seeds x 3 attackers
+    ext = s[s.adversary == "external_border_entry"]
+    assert ext.n_entry_nodes.ge(1).all()
+    assert (ext.n_entry_nodes > 1).any()          # real dead ends, not the fallback of one node
+
+
+def test_combining_refuses_clashing_names_and_mismatched_columns(tmp_path):
+    import combine_families as cf
+    a = pd.DataFrame({"topo_id": ["x"], "family": ["real"], "v": [1]})
+    b = pd.DataFrame({"topo_id": ["x"], "family": ["f"], "v": [1]})
+    f = pd.DataFrame({"topology": ["x"], "pc": [.1]})
+    for n, d in (("a", a), ("b", b), ("f", f)):
+        d.to_csv(tmp_path / f"{n}.csv", index=False)
+    with pytest.raises(SystemExit):
+        cf.combine(tmp_path / "a.csv", tmp_path / "b.csv", tmp_path / "f.csv", tmp_path / "f.csv")
+    b.assign(topo_id="y", extra=1).to_csv(tmp_path / "b.csv", index=False)
+    with pytest.raises(SystemExit):
+        cf.combine(tmp_path / "a.csv", tmp_path / "b.csv", tmp_path / "f.csv", tmp_path / "f.csv")

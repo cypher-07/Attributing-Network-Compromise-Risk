@@ -162,7 +162,8 @@ def plot(res, out_png):
         m = matrix(res, mdl, "r2")
         im = a.imshow(m.values, vmin=-0.5, vmax=1, cmap="Blues")
         a.set_xticks(range(len(m.columns)), m.columns, rotation=40, ha="right")
-        a.set_yticks(range(len(m.index)), m.index if k == 0 else [""] * len(m.index))
+        a.set_yticks(range(len(m.index)), m.index)
+        a.tick_params(labelleft=(k == 0))
         a.set_title(mdl)
         a.set_xlabel("tested on")
         if k == 0:
